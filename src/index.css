@@ -1,1 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Azeret+Mono&display=swap");
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-azeret-mono: "Azeret Mono", monospace;
+}
+
+.basic-border {
+  @apply border-2 border-neutral-900 dark:border-neutral-200;
+}
