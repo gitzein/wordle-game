@@ -7,3 +7,5 @@ export const DISPLAY_KEYS = [
 ];
 
 export const VALID_WORDS = new Set(WORDS);
+
+export const ATTEMPT_AMOUNT = 6;

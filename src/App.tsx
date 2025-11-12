@@ -1,17 +1,32 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import Board from "./components/board";
 import Keyboard from "./components/keyboard";
 import { useThemeStore } from "./lib/store/useThemeStore";
-import Board from "./components/board";
 import { useUserInputStore } from "./lib/store/useUserInputStore";
-import { pickWord } from "./lib/utils";
+import { isValidWord } from "./lib/utils";
 
 function App() {
   const { theme, setTheme } = useThemeStore((state) => state);
-  const { setInput, backspace } = useUserInputStore((state) => state);
+  const { setInput, backspace, setAttempt, setUsedLetters } = useUserInputStore(
+    (state) => state,
+  );
+  const inputRef = useRef<string>("");
 
   const toggleTheme = useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark");
   }, [theme]);
+
+  const handleSubmit = useCallback((text: string) => {
+    console.log(text);
+    text = text.toLowerCase();
+    const validInput = isValidWord(text);
+    if (!validInput) {
+      return alert("Not a valid word");
+    }
+    setUsedLetters(text.split(""));
+    setAttempt();
+    inputRef.current = "";
+  }, []);
 
   useEffect(() => {
     const handleTyping = (e: KeyboardEvent) => {
@@ -19,9 +34,17 @@ function App() {
       if (key.startsWith("Key")) {
         const letter = key[3];
         setInput(letter);
+        inputRef.current = (inputRef.current + letter).slice(0, 5);
       }
       if (key === "Backspace") {
         backspace();
+        inputRef.current = inputRef.current.slice(
+          0,
+          inputRef.current.length - 1,
+        );
+      }
+      if (key === "Enter") {
+        handleSubmit(inputRef.current);
       }
     };
 

@@ -1,3 +1,4 @@
+//src: https://github.com/tabatkins/wordle-list
 export const WORDS = [
   "rossa",
   "jetty",
