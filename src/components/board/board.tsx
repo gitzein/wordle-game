@@ -1,11 +1,13 @@
 import { useId } from "react";
+import { ATTEMPT_AMOUNT } from "../../lib/constants";
 import Tiles from "./tiles";
-import { useUserInputStore } from "../lib/store/useUserInputStore";
-import { ATTEMPT_AMOUNT } from "../lib/constants";
 
-function Board() {
+type PropsType = {
+  attempt: number;
+};
+
+function Board({ attempt }: PropsType) {
   const keyId = useId();
-  const attempt = useUserInputStore((state) => state.attempt);
 
   return (
     <div className="flex flex-col gap-2">

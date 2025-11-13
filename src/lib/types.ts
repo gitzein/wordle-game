@@ -1,1 +1,1 @@
-export type GuessedStatusType = "idle" | "wrong" | "misplaced" | "correct";
+export type GuessedStatusType = "unused" | "wrong" | "misplaced" | "correct";

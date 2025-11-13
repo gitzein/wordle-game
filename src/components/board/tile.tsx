@@ -1,5 +1,6 @@
-import type { GuessedStatusType } from "../lib/types";
-import { cn } from "../lib/utils";
+import { BASE_ANIMATION_DELAY } from "../../lib/constants";
+import type { GuessedStatusType } from "../../lib/types";
+import { cn } from "../../lib/utils";
 
 type PropsType = {
   letter: string;
@@ -8,7 +9,8 @@ type PropsType = {
 };
 
 function Tile({ letter, status, index }: PropsType) {
-  const transitionDelay = status === "idle" ? "0ms" : (index + 1) * 150 + "ms";
+  const transitionDelay =
+    status === "unused" ? "0ms" : (index + 1) * BASE_ANIMATION_DELAY + "ms";
 
   return (
     <div
