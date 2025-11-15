@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useUserInputStore } from "../../lib/store/useUserInputStore";
 import type { GuessedStatusType } from "../../lib/types";
 import Key from "./key";
+import { USED_LETTERS } from "../../lib/constants";
 
 //NOTE : attempt props just to trigger re-render & update each key's status (avoiding changing the key of this component since it will recreate new component and makes the transition-colors on 'Key' component won't happen)
 type PropsType = {
@@ -17,14 +18,13 @@ function Keys({ keys, handleClick, attempt }: PropsType) {
   const [keysStats, setkeysStats] = useState<
     Array<GuessedStatusType | undefined>
   >(Array(keys.length).fill("unused"));
-  const usedLetters = useUserInputStore((state) => state.usedLetters);
 
   useEffect(() => {
-    setkeysStats(keys.map((v) => usedLetters.get(v.text.toLowerCase())));
+    setkeysStats(keys.map((v) => USED_LETTERS.get(v.text.toLowerCase())));
   }, [attempt]);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5">
       {keys.map((v, i) => (
         <Key
           handleClick={handleClick}

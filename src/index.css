@@ -7,6 +7,53 @@
   --font-azeret-mono: "Azeret Mono", monospace;
 }
 
+.bg-wrong-let {
+  @apply bg-rose-600/80;
+}
+
+.bg-misplaced-let {
+  @apply bg-yellow-600/80;
+}
+
+.bg-correct-let {
+  @apply bg-green-600/80;
+}
+
 .basic-border {
   @apply border-2 border-neutral-900 dark:border-neutral-200;
+}
+
+.shake-animate {
+  animation: shake 1s ease-out;
+}
+
+.grow-animate {
+  animation: grow 0.2s linear;
+}
+
+@keyframes shake {
+  20% {
+    translate: -3px;
+  }
+  40% {
+    translate: 3px;
+  }
+  60% {
+    translate: -3px;
+  }
+  80% {
+    translate: 3px;
+  }
+  100% {
+    translate: 0px;
+  }
+}
+
+@keyframes grow {
+  0% {
+    scale: 0.9;
+  }
+  100% {
+    scale: 1;
+  }
 }

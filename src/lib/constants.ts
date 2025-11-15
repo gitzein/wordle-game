@@ -39,8 +39,10 @@ export const DISPLAY_KEYS = [
 
 export const VALID_WORDS = new Set(WORDS);
 
+export const USED_LETTERS = new Map();
+
 export const ATTEMPT_AMOUNT = 6;
 
 export const WORDLE_LENGTH = { "5": 5 };
 
-export const BASE_ANIMATION_DELAY = 150;
+export const BASE_ANIMATION_DELAY = 125;

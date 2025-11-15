@@ -10,7 +10,7 @@ function Board({ attempt }: PropsType) {
   const keyId = useId();
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       {Array(ATTEMPT_AMOUNT)
         .fill(0)
         .map((_v, i) => (

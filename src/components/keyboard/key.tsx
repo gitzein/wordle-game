@@ -20,26 +20,26 @@ function Key({ keyObj: { code, text }, status, handleClick }: PropsType) {
   }, [text, handleClick]);
 
   return (
-    <div className="basic-border rounded-md transition-none">
-      <button
-        onClick={handleButtonClick}
-        style={{ transitionDelay }}
-        className={cn(
-          "cursor-pointer px-3 py-2 transition-colors",
-          {
-            "bg-yellow-500/70": status === "misplaced",
-          },
-          {
-            "bg-green-500/70": status === "correct",
-          },
-          {
-            "bg-rose-500/70": status === "wrong",
-          },
-        )}
-      >
-        <span className="min-w-[1ch] transition-none">{text}</span>
-      </button>
-    </div>
+    <button
+      onClick={handleButtonClick}
+      style={{ transitionDelay }}
+      className={cn(
+        "cursor-pointer rounded-sm bg-slate-500/50 px-3 py-4 transition-colors",
+        {
+          "bg-misplaced-let": status === "misplaced",
+        },
+        {
+          "bg-correct-let": status === "correct",
+        },
+        {
+          "bg-wrong-let": status === "wrong",
+        },
+      )}
+    >
+      <span className="min-w-[1ch] text-xl font-bold transition-none">
+        {text}
+      </span>
+    </button>
   );
 }
 export default Key;

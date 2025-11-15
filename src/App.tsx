@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef } from "react";
 import Board from "./components/board/board";
+import ThemeButton from "./components/common/theme-button";
 import Keyboard from "./components/keyboard/keyboard";
 import { useThemeStore } from "./lib/store/useThemeStore";
 import { useUserInputStore } from "./lib/store/useUserInputStore";
 import { isValidWord } from "./lib/utils";
-import ThemeButton from "./components/common/theme-button";
 
 function App() {
   const theme = useThemeStore((state) => state.theme);

@@ -4,36 +4,51 @@ import Tile from "./tile";
 import { checkAnswer } from "../../lib/utils";
 import { useWordStore } from "../../lib/store/useWordStore";
 import type { GuessedStatusType } from "../../lib/types";
-import { WORDLE_LENGTH } from "../../lib/constants";
+import {
+  BASE_ANIMATION_DELAY,
+  USED_LETTERS,
+  WORDLE_LENGTH,
+} from "../../lib/constants";
 
 type PropsType = {
   attempt: number;
   index: number;
 };
 
+const initTilesStats: GuessedStatusType[] = Array(WORDLE_LENGTH[5]).fill(
+  "unused",
+);
+
 function Tiles({ attempt, index }: PropsType) {
   const [active, setActive] = useState(false);
-  const [tilesStats, setTilesStats] = useState<Array<GuessedStatusType>>(
-    Array(WORDLE_LENGTH[5]).fill("unused"),
-  );
+  const [tilesStats, setTilesStats] =
+    useState<GuessedStatusType[]>(initTilesStats);
   const [text, setText] = useState("");
   const clearInput = useUserInputStore((state) => state.clearInput);
   const keyId = useId();
   const input = useUserInputStore((state) => state.input);
-  const usedLetters = useUserInputStore((state) => state.usedLetters);
   const word = useWordStore((state) => state.word);
 
   const updateTilesStats = useCallback(() => {
     const newLettersStats = checkAnswer(text, word);
     for (let i = 0; i < text.length; i++) {
-      usedLetters.set(text[i].toLowerCase(), newLettersStats[i]);
+      USED_LETTERS.set(text[i].toLowerCase(), newLettersStats[i]);
     }
-    setTilesStats(newLettersStats);
+    setTilesStats((prev) => {
+      return prev.map((v, i) =>
+        v === "unused" ? newLettersStats[i] : prev[i],
+      );
+    });
     const win = newLettersStats.every((v) => v === "correct");
     if (win) {
-      confirm("🎉 You won! 🎉 Play again?");
+      setTimeout(
+        () => {
+          confirm("🎉 You won! 🎉 Play again?");
+        },
+        BASE_ANIMATION_DELAY * (WORDLE_LENGTH[5] + 2),
+      );
     }
-    // console.log(text, word);
+    console.log(text, word);
   }, [text, word]);
 
   useEffect(() => {
@@ -55,7 +70,7 @@ function Tiles({ attempt, index }: PropsType) {
   }, [input, active]);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="shake-animate flex items-center gap-1 transition-colors">
       {tilesStats.map((v, i) => (
         <Tile key={keyId + i} letter={text[i]} status={v} index={i} />
       ))}

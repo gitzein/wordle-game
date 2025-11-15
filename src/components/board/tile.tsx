@@ -9,26 +9,28 @@ type PropsType = {
 };
 
 function Tile({ letter, status, index }: PropsType) {
-  const transitionDelay =
-    status === "unused" ? "0ms" : (index + 1) * BASE_ANIMATION_DELAY + "ms";
+  const transitionDelay = (index + 1) * BASE_ANIMATION_DELAY + "ms";
 
   return (
     <div
       style={{ transitionDelay }}
       className={cn(
-        "basic-border flex size-12 items-center justify-center transition-colors",
+        "flex size-12 items-center justify-center bg-slate-500/50",
         {
-          "bg-yellow-500/70": status === "misplaced",
+          "bg-misplaced-let": status === "misplaced",
         },
         {
-          "bg-green-500/70": status === "correct",
+          "bg-correct-let": status === "correct",
         },
         {
-          "bg-rose-500/70": status === "wrong",
+          "bg-wrong-let": status === "wrong",
+        },
+        {
+          "grow-animate": letter,
         },
       )}
     >
-      <span className="text-2xl font-bold">{letter}</span>
+      <span className="text-3xl font-bold">{letter}</span>
     </div>
   );
 }

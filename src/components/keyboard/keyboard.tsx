@@ -11,7 +11,7 @@ function Keyboard({ handleClick, attempt }: PropsType) {
   const keyId = useId();
 
   return (
-    <div className="font-azeret-mono flex flex-col items-center space-y-2 text-lg">
+    <div className="font-azeret-mono flex flex-col items-center space-y-1.5 text-lg">
       {DISPLAY_KEYS.map((v, i) => {
         return (
           <Keys
