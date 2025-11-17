@@ -24,7 +24,7 @@ function Key({ keyObj: { code, text }, status, handleClick }: PropsType) {
       onClick={handleButtonClick}
       style={{ transitionDelay }}
       className={cn(
-        "cursor-pointer rounded-sm bg-slate-500/50 px-3 py-4 transition-colors",
+        "cursor-pointer rounded-sm bg-slate-500/50 px-2 py-3 transition-colors md:px-3 md:py-4",
         {
           "bg-misplaced-let": status === "misplaced",
         },
@@ -36,7 +36,11 @@ function Key({ keyObj: { code, text }, status, handleClick }: PropsType) {
         },
       )}
     >
-      <span className="min-w-[1ch] text-xl font-bold transition-none">
+      <span
+        className={cn("text-base font-semibold md:text-xl md:font-bold", {
+          "text-xs md:text-base": text.length > 1,
+        })}
+      >
         {text}
       </span>
     </button>

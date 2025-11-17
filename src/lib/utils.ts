@@ -46,3 +46,21 @@ export function isValidWord(word: string) {
   if (word.length < 5) return false;
   return VALID_WORDS.has(word.toLowerCase());
 }
+
+export const throttle = (callback: (...args: any[]) => void, delay: number) => {
+  let isWaiting = false;
+  console.log(isWaiting, delay);
+
+  return (...args: any[]) => {
+    if (isWaiting) {
+      return;
+    }
+
+    callback(...args);
+    isWaiting = true;
+
+    setTimeout(() => {
+      isWaiting = false;
+    }, delay);
+  };
+};

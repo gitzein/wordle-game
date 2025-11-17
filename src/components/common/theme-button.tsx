@@ -11,7 +11,7 @@ function ThemeButton() {
   return (
     <button
       onClick={toggleTheme}
-      className="basic-border absolute top-4 right-4 cursor-pointer rounded-lg p-2 px-3"
+      className="basic-border absolute top-1.5 right-1.5 cursor-pointer rounded-lg p-1 px-2"
     >
       {theme}
     </button>

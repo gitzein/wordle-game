@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef } from "react";
 import Board from "./components/board/board";
-import ThemeButton from "./components/common/theme-button";
+import Header from "./components/common/header";
 import Keyboard from "./components/keyboard/keyboard";
 import { useThemeStore } from "./lib/store/useThemeStore";
 import { useUserInputStore } from "./lib/store/useUserInputStore";
-import { isValidWord } from "./lib/utils";
+import { isValidWord, throttle } from "./lib/utils";
 
 function App() {
   const theme = useThemeStore((state) => state.theme);
@@ -24,6 +24,8 @@ function App() {
     inputRef.current = "";
   }, []);
 
+  const throttledSubmit = throttle(() => handleSubmit(inputRef.current), 1000);
+
   const handleClick = useCallback((keyCode: string) => {
     if (keyCode.startsWith("Key")) {
       const letter = keyCode[3];
@@ -35,7 +37,7 @@ function App() {
       inputRef.current = inputRef.current.slice(0, inputRef.current.length - 1);
     }
     if (keyCode === "Enter") {
-      handleSubmit(inputRef.current);
+      throttledSubmit();
     }
   }, []);
 
@@ -53,11 +55,10 @@ function App() {
   return (
     <>
       <div
-        className={`${theme} flex min-h-screen flex-col items-center justify-center gap-4 bg-neutral-200 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-200`}
+        className={`${theme} flex min-h-screen flex-col items-center gap-4 bg-neutral-200 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-200`}
       >
-        <h1 className="text-2xl font-bold tracking-wide">Wordle Game</h1>
+        <Header />
         <Board attempt={attempt} />
-        <ThemeButton />
         <Keyboard attempt={attempt} handleClick={handleClick} />
       </div>
     </>

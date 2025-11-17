@@ -25,7 +25,7 @@ export const DISPLAY_KEYS = [
     { text: "L", code: "KeyL" },
   ],
   [
-    { text: "← Back", code: "Backspace" },
+    { text: "Back", code: "Backspace" },
     { text: "Z", code: "KeyZ" },
     { text: "X", code: "KeyX" },
     { text: "C", code: "KeyC" },
