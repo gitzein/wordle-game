@@ -49,7 +49,6 @@ export function isValidWord(word: string) {
 
 export const throttle = (callback: (...args: any[]) => void, delay: number) => {
   let isWaiting = false;
-  console.log(isWaiting, delay);
 
   return (...args: any[]) => {
     if (isWaiting) {

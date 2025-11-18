@@ -1,3 +1,4 @@
+import type { GuessedStatusType } from "./types";
 import { WORDS } from "./words";
 
 export const DISPLAY_KEYS = [
@@ -39,7 +40,7 @@ export const DISPLAY_KEYS = [
 
 export const VALID_WORDS = new Set(WORDS);
 
-export const USED_LETTERS = new Map();
+export const USED_LETTERS = new Map<string, GuessedStatusType>();
 
 export const ATTEMPT_AMOUNT = 6;
 

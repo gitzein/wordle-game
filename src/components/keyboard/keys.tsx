@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { useUserInputStore } from "../../lib/store/useUserInputStore";
+import { USED_LETTERS } from "../../lib/constants";
 import type { GuessedStatusType } from "../../lib/types";
 import Key from "./key";
-import { USED_LETTERS } from "../../lib/constants";
 
 //NOTE : attempt props just to trigger re-render & update each key's status (avoiding changing the key of this component since it will recreate new component and makes the transition-colors on 'Key' component won't happen)
 type PropsType = {

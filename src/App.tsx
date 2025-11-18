@@ -5,6 +5,8 @@ import Keyboard from "./components/keyboard/keyboard";
 import { useThemeStore } from "./lib/store/useThemeStore";
 import { useUserInputStore } from "./lib/store/useUserInputStore";
 import { isValidWord, throttle } from "./lib/utils";
+import { useWordStore } from "./lib/store/useWordStore";
+import { USED_LETTERS } from "./lib/constants";
 
 function App() {
   const theme = useThemeStore((state) => state.theme);
@@ -12,7 +14,13 @@ function App() {
   const backspace = useUserInputStore((state) => state.backspace);
   const setAttempt = useUserInputStore((state) => state.setAttempt);
   const attempt = useUserInputStore((state) => state.attempt);
+  const clearInput = useUserInputStore((state) => state.clearInput);
   const inputRef = useRef<string>("");
+  const newWord = useWordStore((state) => state.newWord);
+  const word = useWordStore((state) => state.word);
+  const resetUserInputStore = useUserInputStore(
+    (state) => state.resetUserInputStore,
+  );
 
   const handleSubmit = useCallback((text: string) => {
     text = text.toLowerCase();
@@ -21,8 +29,15 @@ function App() {
       return alert("Not a valid word");
     }
     setAttempt();
+    clearInput();
     inputRef.current = "";
   }, []);
+
+  const handleReset = useCallback(() => {
+    resetUserInputStore();
+    newWord();
+    USED_LETTERS.clear();
+  }, [resetUserInputStore, newWord]);
 
   const throttledSubmit = throttle(() => handleSubmit(inputRef.current), 1000);
 
@@ -57,9 +72,21 @@ function App() {
       <div
         className={`${theme} flex min-h-screen flex-col items-center gap-4 bg-neutral-200 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-200`}
       >
-        <Header />
-        <Board attempt={attempt} />
-        <Keyboard attempt={attempt} handleClick={handleClick} />
+        <Header key={word + "board"} />
+        <Board />
+        <button
+          type="button"
+          onClick={handleReset}
+          disabled={attempt === 0}
+          className="cursor-pointer"
+        >
+          reset
+        </button>
+        <Keyboard
+          key={word + "keyboard"}
+          attempt={attempt}
+          handleClick={handleClick}
+        />
       </div>
     </>
   );
