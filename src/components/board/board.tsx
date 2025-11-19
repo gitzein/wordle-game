@@ -1,8 +1,7 @@
 import { useId } from "react";
 import { ATTEMPT_AMOUNT } from "../../lib/constants";
-import Tiles from "./tiles";
 import { useUserInputStore } from "../../lib/store/useUserInputStore";
-import { useWordStore } from "../../lib/store/useWordStore";
+import Tiles from "./tiles";
 
 type PropsType = {
   // attempt: number;
@@ -10,14 +9,15 @@ type PropsType = {
 
 function Board({}: PropsType) {
   const attempt = useUserInputStore((state) => state.attempt);
-  const word = useWordStore((state) => state.word);
+  const keyId = useId();
+
   return (
     <div className="flex flex-col gap-1">
       {Array(ATTEMPT_AMOUNT)
         .fill(0)
         .map((_v, i) => (
           <Tiles
-            key={word + i}
+            key={keyId + i}
             attempt={attempt}
             active={attempt === i}
             index={i}

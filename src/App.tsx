@@ -1,23 +1,27 @@
 import { useCallback, useEffect, useRef } from "react";
+import { toast } from "sonner";
 import Board from "./components/board/board";
 import Header from "./components/common/header";
 import Keyboard from "./components/keyboard/keyboard";
+import { Toaster } from "./components/ui/sonner";
+import { USED_LETTERS, WORDLE_LENGTH } from "./lib/constants";
 import { useThemeStore } from "./lib/store/useThemeStore";
 import { useUserInputStore } from "./lib/store/useUserInputStore";
-import { isValidWord, throttle } from "./lib/utils";
 import { useWordStore } from "./lib/store/useWordStore";
-import { USED_LETTERS } from "./lib/constants";
+import { isValidWord, throttle } from "./lib/utils";
+import { useGameStatusStore } from "./lib/store/useGameStatusStore";
+import Tile from "./components/board/tile";
 
 function App() {
   const theme = useThemeStore((state) => state.theme);
   const setInput = useUserInputStore((state) => state.setInput);
   const backspace = useUserInputStore((state) => state.backspace);
   const setAttempt = useUserInputStore((state) => state.setAttempt);
-  const attempt = useUserInputStore((state) => state.attempt);
   const clearInput = useUserInputStore((state) => state.clearInput);
   const inputRef = useRef<string>("");
   const newWord = useWordStore((state) => state.newWord);
   const word = useWordStore((state) => state.word);
+  const gameStatus = useGameStatusStore((state) => state.gameStatus);
   const resetUserInputStore = useUserInputStore(
     (state) => state.resetUserInputStore,
   );
@@ -26,7 +30,7 @@ function App() {
     text = text.toLowerCase();
     const validInput = isValidWord(text);
     if (!validInput) {
-      return alert("Not a valid word");
+      return toast.warning("Not a valid word");
     }
     setAttempt();
     clearInput();
@@ -37,7 +41,7 @@ function App() {
     resetUserInputStore();
     newWord();
     USED_LETTERS.clear();
-  }, [resetUserInputStore, newWord]);
+  }, []);
 
   const throttledSubmit = throttle(() => handleSubmit(inputRef.current), 1000);
 
@@ -72,22 +76,21 @@ function App() {
       <div
         className={`${theme} flex min-h-screen flex-col items-center gap-4 bg-neutral-200 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-200`}
       >
-        <Header key={word + "board"} />
-        <Board />
-        <button
-          type="button"
-          onClick={handleReset}
-          disabled={attempt === 0}
-          className="cursor-pointer"
-        >
-          reset
-        </button>
-        <Keyboard
-          key={word + "keyboard"}
-          attempt={attempt}
-          handleClick={handleClick}
-        />
+        <Header />
+        <Board key={word + "board"} />
+        {gameStatus === "playing" && (
+          <button
+            type="button"
+            onClick={handleReset}
+            className="cursor-pointer"
+          >
+            reset
+          </button>
+        )}
+
+        <Keyboard key={word + "keyboard"} handleClick={handleClick} />
       </div>
+      <Toaster position="top-center" />
     </>
   );
 }

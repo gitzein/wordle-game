@@ -1,14 +1,15 @@
 import { useId } from "react";
 import { DISPLAY_KEYS } from "../../lib/constants";
 import Keys from "./keys";
+import { useUserInputStore } from "../../lib/store/useUserInputStore";
 
 type PropsType = {
   handleClick: (keyCode: string) => void;
-  attempt: number;
 };
 
-function Keyboard({ handleClick, attempt }: PropsType) {
+function Keyboard({ handleClick }: PropsType) {
   const keyId = useId();
+  const attempt = useUserInputStore((state) => state.attempt);
 
   return (
     <div className="font-azeret-mono flex flex-col items-center space-y-1.5 text-lg">

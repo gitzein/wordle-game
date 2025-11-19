@@ -41,7 +41,6 @@ function Tiles({ attempt, index, active }: PropsType) {
         );
       });
       const win = newLettersStats.every((v) => v === "correct");
-      console.log(newLettersStats);
       if (win) {
         setTimeout(
           () => {
