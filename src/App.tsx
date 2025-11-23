@@ -2,15 +2,16 @@ import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import Board from "./components/board/board";
 import Header from "./components/common/header";
+import ResetButton from "./components/common/reset-button";
 import Keyboard from "./components/keyboard/keyboard";
 import { Toaster } from "./components/ui/sonner";
-import { USED_LETTERS, WORDLE_LENGTH } from "./lib/constants";
+import { useGameStatusStore } from "./lib/store/useGameStatusStore";
 import { useThemeStore } from "./lib/store/useThemeStore";
 import { useUserInputStore } from "./lib/store/useUserInputStore";
 import { useWordStore } from "./lib/store/useWordStore";
 import { isValidWord, throttle } from "./lib/utils";
-import { useGameStatusStore } from "./lib/store/useGameStatusStore";
-import Tile from "./components/board/tile";
+import WordReveal from "./components/common/WordReveal";
+import { ATTEMPT_AMOUNT } from "./lib/constants";
 
 function App() {
   const theme = useThemeStore((state) => state.theme);
@@ -19,12 +20,10 @@ function App() {
   const setAttempt = useUserInputStore((state) => state.setAttempt);
   const clearInput = useUserInputStore((state) => state.clearInput);
   const inputRef = useRef<string>("");
-  const newWord = useWordStore((state) => state.newWord);
   const word = useWordStore((state) => state.word);
   const gameStatus = useGameStatusStore((state) => state.gameStatus);
-  const resetUserInputStore = useUserInputStore(
-    (state) => state.resetUserInputStore,
-  );
+  const setGameStatus = useGameStatusStore((state) => state.setGameStatus);
+  const attempt = useUserInputStore((state) => state.attempt);
 
   const handleSubmit = useCallback((text: string) => {
     text = text.toLowerCase();
@@ -35,12 +34,6 @@ function App() {
     setAttempt();
     clearInput();
     inputRef.current = "";
-  }, []);
-
-  const handleReset = useCallback(() => {
-    resetUserInputStore();
-    newWord();
-    USED_LETTERS.clear();
   }, []);
 
   const throttledSubmit = throttle(() => handleSubmit(inputRef.current), 1000);
@@ -61,6 +54,12 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (attempt === ATTEMPT_AMOUNT) {
+      setGameStatus("lose");
+    }
+  }, [attempt]);
+
+  useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const key = e.code;
       handleClick(key);
@@ -78,16 +77,8 @@ function App() {
       >
         <Header />
         <Board key={word + "board"} />
-        {gameStatus === "playing" && (
-          <button
-            type="button"
-            onClick={handleReset}
-            className="cursor-pointer"
-          >
-            reset
-          </button>
-        )}
-
+        {gameStatus === "lose" && <WordReveal word={word} />}
+        {gameStatus === "playing" && <ResetButton />}
         <Keyboard key={word + "keyboard"} handleClick={handleClick} />
       </div>
       <Toaster position="top-center" />

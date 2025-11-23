@@ -49,8 +49,6 @@ function Tiles({ attempt, index, active }: PropsType) {
           BASE_ANIMATION_DELAY * (WORDLE_LENGTH[5] + 2),
         );
       }
-
-      // console.log(text, word);
     },
     [word, checkAnswer],
   );
@@ -69,7 +67,7 @@ function Tiles({ attempt, index, active }: PropsType) {
   }, [input, active]);
 
   return (
-    <div className="shake-animate flex items-center gap-1 transition-colors">
+    <div className="flex items-center gap-1 transition-colors">
       {tilesStats.map((v, i) => (
         <Tile key={keyId + i} letter={text[i]} status={v} index={i} />
       ))}

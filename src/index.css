@@ -32,6 +32,10 @@
   animation: grow 0.2s linear;
 }
 
+.fade-in-animate {
+  animation: fade-in 1s ease-out;
+}
+
 @keyframes shake {
   20% {
     translate: -3px;
@@ -56,6 +60,15 @@
   }
   100% {
     scale: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 

@@ -1,10 +1,12 @@
+import { type MouseEvent as ReactMouseEvent } from "react";
 import { useThemeStore } from "../../lib/store/useThemeStore";
 
 function ThemeButton() {
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
 
-  const toggleTheme = () => {
+  const toggleTheme = (e: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
+    (e.target as HTMLButtonElement).blur();
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
