@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import Board from "./components/board/board";
 import Header from "./components/common/header";
 import ResetButton from "./components/common/reset-button";
+import WordReveal from "./components/common/word-reveal";
 import Keyboard from "./components/keyboard/keyboard";
 import { Toaster } from "./components/ui/sonner";
 import { useGameStatusStore } from "./lib/store/useGameStatusStore";
@@ -10,10 +11,10 @@ import { useThemeStore } from "./lib/store/useThemeStore";
 import { useUserInputStore } from "./lib/store/useUserInputStore";
 import { useWordStore } from "./lib/store/useWordStore";
 import { isValidWord, throttle } from "./lib/utils";
-import WordReveal from "./components/common/WordReveal";
-import { ATTEMPT_AMOUNT } from "./lib/constants";
+import Confettis from "./components/common/confettis";
 
 function App() {
+  const [winCount, setWinCount] = useState(0);
   const theme = useThemeStore((state) => state.theme);
   const setInput = useUserInputStore((state) => state.setInput);
   const backspace = useUserInputStore((state) => state.backspace);
@@ -22,8 +23,6 @@ function App() {
   const inputRef = useRef<string>("");
   const word = useWordStore((state) => state.word);
   const gameStatus = useGameStatusStore((state) => state.gameStatus);
-  const setGameStatus = useGameStatusStore((state) => state.setGameStatus);
-  const attempt = useUserInputStore((state) => state.attempt);
 
   const handleSubmit = useCallback((text: string) => {
     text = text.toLowerCase();
@@ -54,21 +53,18 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (attempt === ATTEMPT_AMOUNT) {
-      setGameStatus("lose");
-    }
-  }, [attempt]);
-
-  useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const key = e.code;
       handleClick(key);
     };
-
-    document.addEventListener("keydown", onKeyDown);
-
+    if (gameStatus === "playing") {
+      document.addEventListener("keydown", onKeyDown);
+    }
+    if (gameStatus === "win") {
+      setWinCount((prev) => prev + 1);
+    }
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [gameStatus]);
 
   return (
     <>
@@ -78,7 +74,8 @@ function App() {
         <Header />
         <Board key={word + "board"} />
         {gameStatus === "lose" && <WordReveal word={word} />}
-        {gameStatus === "playing" && <ResetButton />}
+        {gameStatus !== "playing" && <ResetButton />}
+        {winCount > 0 && <Confettis key={winCount} />}
         <Keyboard key={word + "keyboard"} handleClick={handleClick} />
       </div>
       <Toaster position="top-center" />

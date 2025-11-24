@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import {
+  ATTEMPT_AMOUNT,
   BASE_ANIMATION_DELAY,
   USED_LETTERS,
   WORDLE_LENGTH,
@@ -9,6 +10,7 @@ import { useWordStore } from "../../lib/store/useWordStore";
 import type { GuessedStatusType } from "../../lib/types";
 import { checkAnswer } from "../../lib/utils";
 import Tile from "./tile";
+import { useGameStatusStore } from "../../lib/store/useGameStatusStore";
 
 type PropsType = {
   attempt: number;
@@ -25,6 +27,8 @@ function Tiles({ attempt, index, active }: PropsType) {
     useState<GuessedStatusType[]>(initTilesStats);
   const [text, setText] = useState("");
   const keyId = useId();
+  const setGameStatus = useGameStatusStore((state) => state.setGameStatus);
+
   const input = useUserInputStore((state) => state.input);
   const word = useWordStore((state) => state.word);
   const textRef = useRef<string>("");
@@ -44,13 +48,15 @@ function Tiles({ attempt, index, active }: PropsType) {
       if (win) {
         setTimeout(
           () => {
-            confirm("🎉 You won! 🎉 Play again?");
+            setGameStatus("win");
           },
           BASE_ANIMATION_DELAY * (WORDLE_LENGTH[5] + 2),
         );
+      } else if (index === ATTEMPT_AMOUNT - 1) {
+        setGameStatus("lose");
       }
     },
-    [word, checkAnswer],
+    [word, index, checkAnswer, setGameStatus],
   );
 
   useEffect(() => {
