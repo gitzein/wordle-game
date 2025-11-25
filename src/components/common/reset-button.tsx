@@ -4,7 +4,11 @@ import { useUserInputStore } from "../../lib/store/useUserInputStore";
 import { useWordStore } from "../../lib/store/useWordStore";
 import { useGameStatusStore } from "../../lib/store/useGameStatusStore";
 
-function ResetButton() {
+type PropsType = {
+  text: string;
+};
+
+function ResetButton({ text }: PropsType) {
   const setGameStatus = useGameStatusStore((state) => state.setGameStatus);
   const resetUserInputStore = useUserInputStore(
     (state) => state.resetUserInputStore,
@@ -22,8 +26,12 @@ function ResetButton() {
     [],
   );
   return (
-    <button type="button" onClick={handleReset} className="cursor-pointer">
-      reset
+    <button
+      type="button"
+      onClick={handleReset}
+      className="basic-border cursor-pointer rounded-3xl px-4 py-1"
+    >
+      {text}
     </button>
   );
 }

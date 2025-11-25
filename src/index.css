@@ -9,15 +9,15 @@
 }
 
 .bg-wrong-let {
-  @apply bg-rose-600/80;
+  @apply bg-rose-500/80;
 }
 
 .bg-misplaced-let {
-  @apply bg-yellow-600/80;
+  @apply bg-yellow-500/80;
 }
 
 .bg-correct-let {
-  @apply bg-green-600/80;
+  @apply bg-green-500/80;
 }
 
 .basic-border {

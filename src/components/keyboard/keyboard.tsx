@@ -12,7 +12,7 @@ function Keyboard({ handleClick }: PropsType) {
   const attempt = useUserInputStore((state) => state.attempt);
 
   return (
-    <div className="font-azeret-mono flex flex-col items-center space-y-1.5 text-lg">
+    <div className="font-azeret-mono mb-[15vh] flex flex-col items-center space-y-1.5 text-lg">
       {DISPLAY_KEYS.map((v, i) => {
         return (
           <Keys

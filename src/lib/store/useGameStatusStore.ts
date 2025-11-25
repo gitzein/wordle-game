@@ -1,6 +1,5 @@
 import { create } from "zustand";
-
-type GameStatusType = "playing" | "win" | "lose";
+import type { GameStatusType } from "../types";
 
 type GameStatusStoreType = {
   gameStatus: GameStatusType;

@@ -12,6 +12,7 @@ import { useUserInputStore } from "./lib/store/useUserInputStore";
 import { useWordStore } from "./lib/store/useWordStore";
 import { isValidWord, throttle } from "./lib/utils";
 import Confettis from "./components/common/confettis";
+import GameResult from "./components/common/game-result";
 
 function App() {
   const [winCount, setWinCount] = useState(0);
@@ -73,11 +74,13 @@ function App() {
       >
         <Header />
         <Board key={word + "board"} />
-        {gameStatus === "lose" && <WordReveal word={word} />}
-        {gameStatus !== "playing" && <ResetButton />}
-        {winCount > 0 && <Confettis key={winCount} />}
-        <Keyboard key={word + "keyboard"} handleClick={handleClick} />
+        {gameStatus === "playing" ? (
+          <Keyboard key={word + "keyboard"} handleClick={handleClick} />
+        ) : (
+          <GameResult gameStatus={gameStatus} word={word} />
+        )}
       </div>
+      {winCount > 0 && <Confettis key={winCount} />}
       <Toaster position="top-center" />
     </>
   );

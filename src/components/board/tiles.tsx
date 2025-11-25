@@ -37,7 +37,10 @@ function Tiles({ attempt, index, active }: PropsType) {
     (text: string) => {
       const newLettersStats = checkAnswer(text, word);
       for (let i = 0; i < text.length; i++) {
-        USED_LETTERS.set(text[i].toLowerCase(), newLettersStats[i]);
+        const prevState = USED_LETTERS.get(text[i].toLowerCase());
+        if (prevState !== "correct") {
+          USED_LETTERS.set(text[i].toLowerCase(), newLettersStats[i]);
+        }
       }
       setTilesStats((prev) => {
         return prev.map((v, i) =>
