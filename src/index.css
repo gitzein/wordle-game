@@ -8,70 +8,6 @@
   --font-azeret-mono: "Azeret Mono", monospace;
 }
 
-.bg-wrong-let {
-  @apply bg-rose-500/80;
-}
-
-.bg-misplaced-let {
-  @apply bg-yellow-500/80;
-}
-
-.bg-correct-let {
-  @apply bg-green-500/80;
-}
-
-.basic-border {
-  @apply border-2 border-neutral-900 dark:border-neutral-200;
-}
-
-.shake-animate {
-  animation: shake 1s ease-out;
-}
-
-.grow-animate {
-  animation: grow 0.2s linear;
-}
-
-.fade-in-animate {
-  animation: fade-in 1s ease-out;
-}
-
-@keyframes shake {
-  20% {
-    translate: -3px;
-  }
-  40% {
-    translate: 3px;
-  }
-  60% {
-    translate: -3px;
-  }
-  80% {
-    translate: 3px;
-  }
-  100% {
-    translate: 0px;
-  }
-}
-
-@keyframes grow {
-  0% {
-    scale: 0.9;
-  }
-  100% {
-    scale: 1;
-  }
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -185,5 +121,69 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.bg-wrong-let {
+  @apply bg-rose-500/80;
+}
+
+.bg-misplaced-let {
+  @apply bg-yellow-500/80;
+}
+
+.bg-correct-let {
+  @apply bg-green-500/80;
+}
+
+.basic-border {
+  @apply border-2 border-neutral-900 dark:border-neutral-200;
+}
+
+.shake-animate {
+  animation: shake 0.5s ease-out;
+}
+
+.grow-animate {
+  animation: grow 0.2s linear;
+}
+
+.fade-in-animate {
+  animation: fade-in 1s ease-out;
+}
+
+@keyframes shake {
+  20% {
+    translate: -3px;
+  }
+  40% {
+    translate: 3px;
+  }
+  60% {
+    translate: -3px;
+  }
+  80% {
+    translate: 3px;
+  }
+  100% {
+    translate: 0px;
+  }
+}
+
+@keyframes grow {
+  0% {
+    scale: 0.9;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

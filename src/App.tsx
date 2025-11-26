@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import Board from "./components/board/board";
+import Confettis from "./components/common/confettis";
+import GameResult from "./components/common/game-result";
 import Header from "./components/common/header";
-import ResetButton from "./components/common/reset-button";
-import WordReveal from "./components/common/word-reveal";
 import Keyboard from "./components/keyboard/keyboard";
 import { Toaster } from "./components/ui/sonner";
 import { useGameStatusStore } from "./lib/store/useGameStatusStore";
@@ -11,8 +11,6 @@ import { useThemeStore } from "./lib/store/useThemeStore";
 import { useUserInputStore } from "./lib/store/useUserInputStore";
 import { useWordStore } from "./lib/store/useWordStore";
 import { isValidWord, throttle } from "./lib/utils";
-import Confettis from "./components/common/confettis";
-import GameResult from "./components/common/game-result";
 
 function App() {
   const [winCount, setWinCount] = useState(0);
@@ -24,11 +22,15 @@ function App() {
   const inputRef = useRef<string>("");
   const word = useWordStore((state) => state.word);
   const gameStatus = useGameStatusStore((state) => state.gameStatus);
+  const setInvalidAttempt = useGameStatusStore(
+    (state) => state.setInvalidAttempt,
+  );
 
   const handleSubmit = useCallback((text: string) => {
     text = text.toLowerCase();
     const validInput = isValidWord(text);
     if (!validInput) {
+      setInvalidAttempt();
       return toast.warning("Not a valid word");
     }
     setAttempt();
@@ -70,7 +72,7 @@ function App() {
   return (
     <>
       <div
-        className={`${theme} flex min-h-screen flex-col items-center gap-4 bg-neutral-200 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-200`}
+        className={`${theme} flex min-h-screen flex-col items-center gap-4 bg-neutral-200 pb-[15vh] text-neutral-900 dark:bg-neutral-900 dark:text-neutral-200`}
       >
         <Header />
         <Board key={word + "board"} />

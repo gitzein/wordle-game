@@ -8,7 +8,7 @@ import {
 import { useUserInputStore } from "../../lib/store/useUserInputStore";
 import { useWordStore } from "../../lib/store/useWordStore";
 import type { GuessedStatusType } from "../../lib/types";
-import { checkAnswer } from "../../lib/utils";
+import { checkAnswer, cn } from "../../lib/utils";
 import Tile from "./tile";
 import { useGameStatusStore } from "../../lib/store/useGameStatusStore";
 
@@ -16,13 +16,14 @@ type PropsType = {
   attempt: number;
   index: number;
   active: boolean;
+  invalid: boolean;
 };
 
 const initTilesStats: GuessedStatusType[] = Array(WORDLE_LENGTH[5]).fill(
   "unused",
 );
 
-function Tiles({ attempt, index, active }: PropsType) {
+function Tiles({ attempt, index, active, invalid }: PropsType) {
   const [tilesStats, setTilesStats] =
     useState<GuessedStatusType[]>(initTilesStats);
   const [text, setText] = useState("");
@@ -76,7 +77,11 @@ function Tiles({ attempt, index, active }: PropsType) {
   }, [input, active]);
 
   return (
-    <div className="flex items-center gap-1 transition-colors">
+    <div
+      className={cn("flex items-center gap-1 transition-colors", {
+        "shake-animate": invalid && active,
+      })}
+    >
       {tilesStats.map((v, i) => (
         <Tile key={keyId + i} letter={text[i]} status={v} index={i} />
       ))}

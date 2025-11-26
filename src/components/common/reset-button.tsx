@@ -10,6 +10,9 @@ type PropsType = {
 
 function ResetButton({ text }: PropsType) {
   const setGameStatus = useGameStatusStore((state) => state.setGameStatus);
+  const setInvalidAttempt = useGameStatusStore(
+    (state) => state.setInvalidAttempt,
+  );
   const resetUserInputStore = useUserInputStore(
     (state) => state.resetUserInputStore,
   );
@@ -19,6 +22,7 @@ function ResetButton({ text }: PropsType) {
     (e: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
       (e.target as HTMLButtonElement).blur();
       resetUserInputStore();
+      setInvalidAttempt(0);
       newWord();
       setGameStatus("playing");
       USED_LETTERS.clear();
