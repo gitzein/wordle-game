@@ -23,7 +23,7 @@ function Keys({ keys, handleClick, attempt }: PropsType) {
   }, [attempt]);
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1 md:gap-1.5">
       {keys.map((v, i) => (
         <Key
           handleClick={handleClick}

@@ -25,7 +25,7 @@ function GameResult({ gameStatus, word }: PropsType) {
         <p>Invalid input : {invalidAttempt}</p>
         <p>Used letters : {letterUsed}</p>
       </div>
-      <ResetButton text="Play again?" />
+      <ResetButton text="Play again" />
     </>
   );
 }
