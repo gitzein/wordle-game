@@ -1,5 +1,6 @@
 import { type MouseEvent as ReactMouseEvent } from "react";
 import { useThemeStore } from "../../lib/store/useThemeStore";
+import { MoonIcon, SunIcon } from "lucide-react";
 
 function ThemeButton() {
   const theme = useThemeStore((state) => state.theme);
@@ -13,9 +14,9 @@ function ThemeButton() {
   return (
     <button
       onClick={toggleTheme}
-      className="basic-border absolute top-1.5 right-1.5 cursor-pointer rounded-lg p-1 px-2"
+      className="absolute top-1/2 right-2 flex translate-y-[-50%] cursor-pointer items-center justify-center rounded-lg [&_svg]:size-7"
     >
-      {theme}
+      {theme === "dark" ? <MoonIcon /> : <SunIcon />}
     </button>
   );
 }

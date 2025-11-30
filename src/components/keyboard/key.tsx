@@ -12,7 +12,7 @@ type PropsType = {
   handleClick: (keyCode: string) => void;
 };
 
-const transitionDelay = BASE_ANIMATION_DELAY * (WORDLE_LENGTH[5] + 1) + "ms";
+const transitionDelay = BASE_ANIMATION_DELAY * (WORDLE_LENGTH + 1) + "ms";
 
 function Key({ keyObj: { code, text }, status, handleClick }: PropsType) {
   const handleButtonClick = useCallback(() => {

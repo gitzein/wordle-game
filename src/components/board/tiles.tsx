@@ -19,9 +19,7 @@ type PropsType = {
   invalid: boolean;
 };
 
-const initTilesStats: GuessedStatusType[] = Array(WORDLE_LENGTH[5]).fill(
-  "unused",
-);
+const initTilesStats: GuessedStatusType[] = Array(WORDLE_LENGTH).fill("unused");
 
 function Tiles({ attempt, index, active, invalid }: PropsType) {
   const [tilesStats, setTilesStats] =
@@ -54,7 +52,7 @@ function Tiles({ attempt, index, active, invalid }: PropsType) {
           () => {
             setGameStatus("win");
           },
-          BASE_ANIMATION_DELAY * (WORDLE_LENGTH[5] + 2),
+          BASE_ANIMATION_DELAY * (WORDLE_LENGTH + 2),
         );
       } else if (index === ATTEMPT_AMOUNT - 1) {
         setGameStatus("lose");

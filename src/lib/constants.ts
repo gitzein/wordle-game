@@ -44,6 +44,6 @@ export const USED_LETTERS = new Map<string, GuessedStatusType>();
 
 export const ATTEMPT_AMOUNT = 6;
 
-export const WORDLE_LENGTH = { "5": 5 };
+export const WORDLE_LENGTH = 5;
 
 export const BASE_ANIMATION_DELAY = 125;
